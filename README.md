@@ -1,146 +1,118 @@
-WhatsApp Product Review Collector 💬
+# **WhatsApp Product Review Collector 💬**
 
-A full-stack application developed as an SDE assignment for Hyperint / Eternamind.
+A full-stack application developed as an SDE assignment for **Hyperint / Eternamind**.
 
 This system automates the collection of product reviews using a conversational WhatsApp bot. It processes user inputs (Product Name, User Name, Review) via a state machine, stores them in a database, and streams them to a live React dashboard in real-time.
 
-🚀 Features
+## **🚀 Features**
 
-Conversational Bot: A state-aware WhatsApp bot that guides users through a review flow.
+- **Conversational Bot:** A state-aware WhatsApp bot that guides users through a review flow.
+- **Real-time Dashboard:** A React-based UI that auto-refreshes to show new feedback instantly.
+- **Robust Backend:** Built with **FastAPI** and **SQLAlchemy** for high performance.
+- **Data Simulation:** Includes a script to populate the database with mock data for demonstration purposes.
+- **Fault Tolerance:** The frontend handles backend downtimes gracefully with a "Demo Mode".
 
-Real-time Dashboard: A React-based UI that auto-refreshes to show new feedback instantly.
+## **🛠️ Tech Stack**
 
-Robust Backend: Built with FastAPI and SQLAlchemy for high performance.
+- **Backend:** Python, FastAPI, Uvicorn
+- **Database:** SQLite (Default for portability) / PostgreSQL (Supported via config)
+- **Frontend:** React.js (Standalone), Tailwind CSS, Lucide Icons
+- **Integrations:** Twilio Sandbox for WhatsApp
+- **Tunneling:** Ngrok (to expose localhost to Twilio)
 
-Data Simulation: Includes a script to populate the database with mock data for demonstration purposes.
+## **📂 Project Structure**
 
-Fault Tolerance: The frontend handles backend downtimes gracefully with a "Demo Mode".
+├── main.py \# FastAPI Backend & DB Models  
+├── index.html \# React Frontend Dashboard  
+├── populate_db.py \# Script to generate dummy data (No WhatsApp needed)  
+├── requirements.txt \# Python dependencies  
+├── dashboard_preview.png \# Screenshot for README  
+└── README.md \# Project Documentation
 
-🛠️ Tech Stack
+## **⚡ Step-by-Step Execution Guide**
 
-Backend: Python, FastAPI, Uvicorn
+### **1\. Prerequisite Setup**
 
-Database: SQLite (Default for portability) / PostgreSQL (Supported via config)
-
-Frontend: React.js (Standalone), Tailwind CSS, Lucide Icons
-
-Integrations: Twilio Sandbox for WhatsApp
-
-Tunneling: Ngrok (to expose localhost to Twilio)
-
-📂 Project Structure
-
-├── main.py # FastAPI Backend & DB Models
-├── index.html # React Frontend Dashboard
-├── populate_db.py # Script to generate dummy data (No WhatsApp needed)
-├── requirements.txt # Python dependencies
-├── dashboard_preview.png # Screenshot for README
-└── README.md # Project Documentation
-
-⚡ Step-by-Step Execution Guide
-
-1. Prerequisite Setup
-
-Ensure you have Python installed.
+Ensure you have Python installed.  
 Clone this repository and navigate to the project folder.
 
-2. Backend Installation
+### **2\. Backend Installation**
 
-Create a virtual environment:
+1. Create a virtual environment:  
+   python \-m venv venv  
+   \# Windows:  
+   .\\venv\\Scripts\\activate  
+   \# Mac/Linux:  
+   source venv/bin/activate
 
-python -m venv venv
+2. Install dependencies:  
+   pip install \-r requirements.txt
 
-# Windows:
+3. Start the server:  
+   python \-m uvicorn main:app \--reload
 
-.\venv\Scripts\activate
+   _The backend will start at http://localhost:8000._
 
-# Mac/Linux:
+### **3\. Frontend Launch**
 
-source venv/bin/activate
+Simply double-click **index.html** to open it in your browser.
 
-Install dependencies:
+- It connects to localhost:8000 automatically.
+- If the backend is running, you will see "No reviews yet".
+- If the backend is off, it will switch to **Demo Mode** with sample data.
 
-pip install -r requirements.txt
-
-Start the server:
-
-python -m uvicorn main:app --reload
-
-The backend will start at http://localhost:8000.
-
-3. Frontend Launch
-
-Simply double-click index.html to open it in your browser.
-
-It connects to localhost:8000 automatically.
-
-If the backend is running, you will see "No reviews yet".
-
-If the backend is off, it will switch to Demo Mode with sample data.
-
-🔗 Connecting to WhatsApp (Twilio)
+## **🔗 Connecting to WhatsApp (Twilio)**
 
 To test the actual chatbot flow, you need to expose your local server to the internet so Twilio can talk to it.
 
-Install Ngrok (or a similar tunneling tool).
+1. **Install Ngrok** (or a similar tunneling tool).
+2. Run Ngrok on port 8000:  
+   ngrok http 8000
 
-Run Ngrok on port 8000:
+3. Copy the **HTTPS Forwarding URL** (e.g., https://abc-123.ngrok-free.app).
+4. Go to your [Twilio Console \> Messaging \> Sandbox Settings](https://console.twilio.com/).
+5. Paste the URL into the **"When a message comes in"** field and append /whatsapp:
+   - **Target URL:** https://abc-123.ngrok-free.app/whatsapp
+6. Save settings.
+7. Join the sandbox using your phone (send the specific "join code" to the Twilio number).
 
-ngrok http 8000
+**Test Flow:**
 
-Copy the HTTPS Forwarding URL (e.g., https://abc-123.ngrok-free.app).
+User: Hi  
+Bot: Which product is this review for?  
+User: iPhone 15  
+Bot: What's your name?  
+User: Alex  
+Bot: Please send your review for iPhone 15\.  
+User: Great battery life\!
 
-Go to your Twilio Console > Messaging > Sandbox Settings.
-
-Paste the URL into the "When a message comes in" field and append /whatsapp:
-
-Target URL: https://abc-123.ngrok-free.app/whatsapp
-
-Save settings.
-
-Join the sandbox using your phone (send the specific "join code" to the Twilio number).
-
-Test Flow:
-
-User: Hi
-Bot: Which product is this review for?
-User: iPhone 15
-Bot: What's your name?
-User: Alex
-Bot: Please send your review for iPhone 15.
-User: Great battery life!
-
-🧪 Quick Demo (No Twilio Required)
+## **🧪 Quick Demo (No Twilio Required)**
 
 If you don't want to configure Twilio, you can use the included simulation script to generate traffic.
 
-Ensure the backend is running (uvicorn main:app --reload).
+1. Ensure the backend is running (uvicorn main:app \--reload).
+2. Open a new terminal and run:  
+   python populate_db.py
 
-Open a new terminal and run:
+3. Watch the **index.html** dashboard. The table will automatically update with 5 distinct user reviews as the script runs.
 
-python populate_db.py
+## **⚙️ Configuration**
 
-Watch the index.html dashboard. The table will automatically update with 5 distinct user reviews as the script runs.
-
-⚙️ Configuration
-
-Switching to PostgreSQL:
+Switching to PostgreSQL:  
 The project uses SQLite by default for zero-config testing. To use Postgres (as per the assignment requirement):
 
-Open main.py.
+1. Open main.py.
+2. Uncomment **Line 14**:  
+   \# DATABASE_URL \= "postgresql://user:password@localhost/dbname"
 
-Uncomment Line 14:
+3. Comment out the SQLite line.
+4. Ensure you have psycopg2-binary installed.
 
-# DATABASE_URL = "postgresql://user:password@localhost/dbname"
+## **📸 Screenshots**
 
-Comment out the SQLite line.
+![Dashboard Preview](dashboard_preview.png)
 
-Ensure you have psycopg2-binary installed.
+## **📝 Notes for Reviewer**
 
-📸 Screenshots
-
-📝 Notes for Reviewer
-
-State Management: The bot uses an in-memory dictionary for conversation state. In a production environment, this would be replaced with Redis.
-
-Frontend: Built as a Single File Component (SFC) for simplicity and ease of review, eliminating the need for a complex npm build step.
+- **State Management:** The bot uses an in-memory dictionary for conversation state. In a production environment, this would be replaced with Redis.
+- **Frontend:** Built as a Single File Component (SFC) for simplicity and ease of review, eliminating the need for a complex npm build step.
