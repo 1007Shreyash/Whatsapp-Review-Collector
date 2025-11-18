@@ -21,13 +21,14 @@ This system automates the collection of product reviews using a conversational W
 - **Tunneling:** Ngrok (to expose localhost to Twilio)
 
 ## **📂 Project Structure**
-
+```
 ├── main.py \# FastAPI Backend & DB Models  
 ├── index.html \# React Frontend Dashboard  
 ├── populate_db.py \# Script to generate dummy data (No WhatsApp needed)  
 ├── requirements.txt \# Python dependencies  
 ├── dashboard_preview.png \# Screenshot for README  
 └── README.md \# Project Documentation
+```
 
 ## **⚡ Step-by-Step Execution Guide**
 
@@ -39,17 +40,25 @@ Clone this repository and navigate to the project folder.
 ### **2\. Backend Installation**
 
 1. Create a virtual environment:  
-   python \-m venv venv  
+   ```
+   python \-m venv venv
+   
    \# Windows:  
-   .\\venv\\Scripts\\activate  
+   .\\venv\\Scripts\\activate
+   
    \# Mac/Linux:  
    source venv/bin/activate
+   ```
 
-2. Install dependencies:  
+3. Install dependencies:  
+   ```
    pip install \-r requirements.txt
+   ```
 
-3. Start the server:  
+5. Start the server:  
+   ```
    python \-m uvicorn main:app \--reload
+   ```
 
    _The backend will start at http://localhost:8000._
 
@@ -67,14 +76,16 @@ To test the actual chatbot flow, you need to expose your local server to the int
 
 1. **Install Ngrok** (or a similar tunneling tool).
 2. Run Ngrok on port 8000:  
+   ```
    ngrok http 8000
+   ```
 
-3. Copy the **HTTPS Forwarding URL** (e.g., https://abc-123.ngrok-free.app).
-4. Go to your [Twilio Console \> Messaging \> Sandbox Settings](https://console.twilio.com/).
-5. Paste the URL into the **"When a message comes in"** field and append /whatsapp:
+4. Copy the **HTTPS Forwarding URL** (e.g., https://abc-123.ngrok-free.app).
+5. Go to your [Twilio Console \> Messaging \> Sandbox Settings](https://console.twilio.com/).
+6. Paste the URL into the **"When a message comes in"** field and append /whatsapp:
    - **Target URL:** https://abc-123.ngrok-free.app/whatsapp
-6. Save settings.
-7. Join the sandbox using your phone (send the specific "join code" to the Twilio number).
+7. Save settings.
+8. Join the sandbox using your phone (send the specific "join code" to the Twilio number).
 
 **Test Flow:**
 
@@ -103,10 +114,12 @@ The project uses SQLite by default for zero-config testing. To use Postgres (as 
 
 1. Open main.py.
 2. Uncomment **Line 14**:  
+   ```
    \# DATABASE_URL \= "postgresql://user:password@localhost/dbname"
+   ```
 
-3. Comment out the SQLite line.
-4. Ensure you have psycopg2-binary installed.
+4. Comment out the SQLite line.
+5. Ensure you have psycopg2-binary installed.
 
 ## **📸 Screenshots**
 
