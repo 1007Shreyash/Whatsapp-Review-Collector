@@ -123,6 +123,7 @@ The project uses SQLite by default for zero-config testing. To use Postgres (as 
 
 ## **📸 Screenshots**
 
+![Dashboard Preview](dashboard_preview1.png)
 ![Dashboard Preview](dashboard_preview.png)
 
 ## **📝 Notes for Reviewer**
